@@ -7,7 +7,7 @@ CACHE_DIR=$2
 echo "Installing LaTeX (TinyTeX)..."
 
 # Install TinyTeX directly to /app/.TinyTeX without modifying the PATH
-wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | bash -s -- --prefix=/app/.TinyTeX --no-path
+wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --prefix=/app/.TinyTeX --no-path
 
 echo "Configuring PATH to include TinyTeX binaries..."
 
@@ -22,6 +22,9 @@ then
     echo "pdflatex could not be found. TinyTeX installation failed."
     exit 1
 fi
+
+echo "Listing /app/.TinyTeX/bin/x86_64-linux:"
+ls -la /app/.TinyTeX/bin/x86_64-linux
 
 echo "Installing additional LaTeX packages..."
 
