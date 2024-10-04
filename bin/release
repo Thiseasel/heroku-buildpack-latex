@@ -1,2 +1,9 @@
 #!/bin/bash
-echo "{\"stack\":\"heroku-20\"}"
+
+cat <<EOF
+{
+  "env": {
+    "PATH": "/app/.tinytex/bin/x86_64-linux:\$PATH"
+  }
+}
+EOF
