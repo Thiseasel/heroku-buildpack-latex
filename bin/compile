@@ -5,7 +5,7 @@ CACHE_DIR=$2
 
 echo "Installing LaTeX (TinyTeX)..."
 
-# Download and install TinyTeX without modifying the PATH
+# Install TinyTeX without modifying the PATH
 wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --no-path
 
 # Move TinyTeX to the build directory to ensure it's accessible at runtime
@@ -14,7 +14,7 @@ cp -r $HOME/.TinyTeX $BUILD_DIR/.tinytex
 
 echo "Configuring PATH to include TinyTeX binaries..."
 
-# Export PATH to include TinyTeX binaries
+# Add TinyTeX binaries to PATH
 export PATH="$BUILD_DIR/.tinytex/bin/x86_64-linux:$PATH"
 
 echo "Verifying pdflatex installation..."
@@ -28,10 +28,9 @@ fi
 
 echo "Installing additional LaTeX packages..."
 
-# Update tlmgr and install only the necessary non-core packages
+# Update tlmgr and install non-core packages
 tlmgr update --self --repository=https://mirror.ctan.org/systems/texlive/tlnet
 
-# Install only non-core packages to avoid errors
 tlmgr install \
   textgreek \
   setspace \
@@ -39,5 +38,9 @@ tlmgr install \
   caption
 
 echo "LaTeX installation and package setup complete."
+
+echo "Cleaning up temporary files..."
+rm -rf $HOME/.TinyTeX
+rm TinyTeX.tar.gz
 
 exit 0
