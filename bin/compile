@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e  # Exit immediately if a command exits with a non-zero status
 
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -6,11 +7,11 @@ CACHE_DIR=$2
 echo "Installing LaTeX (TinyTeX)..."
 
 # Install TinyTeX directly to /app/.TinyTeX without modifying the PATH
-wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --prefix=/app/.TinyTeX --no-path
+wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | bash -s -- --prefix=/app/.TinyTeX --no-path
 
 echo "Configuring PATH to include TinyTeX binaries..."
 
-# Add TinyTeX binaries to PATH for the rest of the compile script
+# Export PATH for the rest of the compile script
 export PATH="/app/.TinyTeX/bin/x86_64-linux:$PATH"
 
 echo "Verifying pdflatex installation..."
@@ -18,7 +19,7 @@ echo "Verifying pdflatex installation..."
 # Check if pdflatex is available
 if ! command -v pdflatex &> /dev/null
 then
-    echo "pdflatex could not be found"
+    echo "pdflatex could not be found. TinyTeX installation failed."
     exit 1
 fi
 
@@ -39,7 +40,9 @@ tlmgr install \
 
 echo "LaTeX installation and package setup complete."
 
-echo "Cleaning up temporary files..."
-rm TinyTeX.tar.gz
+# Optional: Clean up any temporary files if necessary
+# The install script might handle its own cleanup
+
+echo "Buildpack compile step completed successfully."
 
 exit 0
