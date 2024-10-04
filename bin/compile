@@ -5,7 +5,7 @@ CACHE_DIR=$2
 
 echo "Installing LaTeX (TinyTeX)..."
 
-# Install TinyTeX without modifying the PATH
+# Download and install TinyTeX without modifying the PATH
 wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --no-path
 
 # Move TinyTeX to the build directory to ensure it's accessible at runtime
@@ -28,7 +28,7 @@ fi
 
 echo "Installing additional LaTeX packages..."
 
-# Update tlmgr and install non-core packages
+# Update tlmgr and install only non-core packages
 tlmgr update --self --repository=https://mirror.ctan.org/systems/texlive/tlnet
 
 tlmgr install \
