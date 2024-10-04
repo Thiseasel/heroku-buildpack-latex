@@ -5,17 +5,13 @@ CACHE_DIR=$2
 
 echo "Installing LaTeX (TinyTeX)..."
 
-# Download and install TinyTeX without modifying the PATH
-wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --no-path
-
-# Move TinyTeX to the build directory to ensure it's accessible at runtime
-mkdir -p $BUILD_DIR/.TinyTeX
-cp -r $HOME/.TinyTeX/* $BUILD_DIR/.TinyTeX/
+# Install TinyTeX directly to /app/.TinyTeX without modifying the PATH
+wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --prefix=/app/.TinyTeX --no-path
 
 echo "Configuring PATH to include TinyTeX binaries..."
 
 # Add TinyTeX binaries to PATH for the rest of the compile script
-export PATH="$BUILD_DIR/.TinyTeX/bin/x86_64-linux:$PATH"
+export PATH="/app/.TinyTeX/bin/x86_64-linux:$PATH"
 
 echo "Verifying pdflatex installation..."
 
@@ -29,7 +25,7 @@ fi
 echo "Installing additional LaTeX packages..."
 
 # Set tlmgr's sys_bin to /app/.TinyTeX/bin/x86_64-linux
-tlmgr option sys_bin $BUILD_DIR/.TinyTeX/bin/x86_64-linux
+tlmgr option sys_bin /app/.TinyTeX/bin/x86_64-linux
 
 # Update tlmgr
 tlmgr update --self --repository=https://mirror.ctan.org/systems/texlive/tlnet
@@ -44,7 +40,6 @@ tlmgr install \
 echo "LaTeX installation and package setup complete."
 
 echo "Cleaning up temporary files..."
-rm -rf $HOME/.TinyTeX
 rm TinyTeX.tar.gz
 
 exit 0
