@@ -1,0 +1,30 @@
+#!/bin/bash
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+echo "Installing LaTeX..."
+
+# Download and install TinyTeX (a minimal LaTeX distribution)
+wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --no-path
+
+export PATH="$HOME/bin:$PATH"
+
+echo "Installing required LaTeX packages..."
+
+# Install only the necessary packages
+tlmgr install \
+  inputenc \
+  fontenc \
+  textgreek \
+  graphicx \
+  amsmath \
+  hyperref \
+  setspace \
+  titlesec \
+  caption \
+  babel
+
+echo "LaTeX installation complete."
+
+exit 0
