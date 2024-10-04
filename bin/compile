@@ -3,28 +3,41 @@
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-echo "Installing LaTeX..."
+echo "Installing LaTeX (TinyTeX)..."
 
-# Download and install TinyTeX (a minimal LaTeX distribution)
+# Download and install TinyTeX without modifying the PATH
 wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --no-path
 
-export PATH="$HOME/bin:$PATH"
+# Move TinyTeX to the build directory to ensure it's accessible at runtime
+mkdir -p $BUILD_DIR/.tinytex
+cp -r $HOME/.TinyTeX $BUILD_DIR/.tinytex
 
-echo "Installing required LaTeX packages..."
+echo "Configuring PATH to include TinyTeX binaries..."
 
-# Install only the necessary packages
+# Export PATH to include TinyTeX binaries
+export PATH="$BUILD_DIR/.tinytex/bin/x86_64-linux:$PATH"
+
+echo "Verifying pdflatex installation..."
+
+# Check if pdflatex is available
+if ! command -v pdflatex &> /dev/null
+then
+    echo "pdflatex could not be found"
+    exit 1
+fi
+
+echo "Installing additional LaTeX packages..."
+
+# Update tlmgr and install only the necessary non-core packages
+tlmgr update --self --repository=https://mirror.ctan.org/systems/texlive/tlnet
+
+# Install only non-core packages to avoid errors
 tlmgr install \
-  inputenc \
-  fontenc \
   textgreek \
-  graphicx \
-  amsmath \
-  hyperref \
   setspace \
   titlesec \
-  caption \
-  babel
+  caption
 
-echo "LaTeX installation complete."
+echo "LaTeX installation and package setup complete."
 
 exit 0
