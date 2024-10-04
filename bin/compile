@@ -8,7 +8,7 @@ echo "Installing LaTeX (TinyTeX)..."
 # Install TinyTeX directly to /app/.TinyTeX without modifying the PATH
 wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh -s -- --prefix=/app/.TinyTeX --no-path
 
-echo "Configuring PATH to include TinyTeX binaries for the build process..."
+echo "Configuring PATH to include TinyTeX binaries..."
 
 # Add TinyTeX binaries to PATH for the rest of the compile script
 export PATH="/app/.TinyTeX/bin/x86_64-linux:$PATH"
@@ -24,13 +24,13 @@ fi
 
 echo "Installing additional LaTeX packages..."
 
-# Configure tlmgr's sys_bin to point to the correct TinyTeX binary directory
+# Set tlmgr's sys_bin to /app/.TinyTeX/bin/x86_64-linux
 tlmgr option sys_bin /app/.TinyTeX/bin/x86_64-linux
 
-# Update tlmgr to ensure it's up-to-date
+# Update tlmgr
 tlmgr update --self --repository=https://mirror.ctan.org/systems/texlive/tlnet
 
-# Install only the necessary non-core LaTeX packages to minimize slug size
+# Install only non-core packages
 tlmgr install \
   textgreek \
   setspace \
