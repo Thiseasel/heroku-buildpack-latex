@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "LaTeX buildpack detected"
+exit 0
