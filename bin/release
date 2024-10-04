@@ -3,7 +3,7 @@
 cat <<EOF
 {
   "env": {
-    "PATH": "/app/.tinytex/bin/x86_64-linux:\$PATH"
+    "PATH": "/app/.TinyTeX/bin/x86_64-linux:\$PATH"
   }
 }
 EOF
