@@ -14,12 +14,12 @@ echo "Configuring PATH to include TinyTeX binaries..."
 # Export PATH for the rest of the compile script
 export PATH="/app/.TinyTeX/bin/x86_64-linux:$PATH"
 
-echo "Verifying pdflatex installation..."
+echo "Verifying xelatex installation..."
 
-# Check if pdflatex is available
-if ! command -v pdflatex &> /dev/null
+# Check if xelatex is available
+if ! command -v xelatex &> /dev/null
 then
-    echo "pdflatex could not be found. TinyTeX installation failed."
+    echo "xelatex could not be found. TinyTeX installation failed."
     exit 1
 fi
 
@@ -36,10 +36,24 @@ tlmgr update --self --repository=https://mirror.ctan.org/systems/texlive/tlnet
 
 # Install only non-core packages
 tlmgr install \
+  fontspec \
   textgreek \
   setspace \
   titlesec \
-  caption
+  caption \
+  cm-super \
+  collection-langgreek \
+  graphicx \
+  amsmath \
+  hyperref \
+  babel \
+  booktabs \
+  multirow \
+  array \
+  float \
+  geometry \
+  unicode-math \
+  newunicodechar
 
 echo "LaTeX installation and package setup complete."
 
